@@ -175,36 +175,36 @@ public class MonitorDetectorComponent {
 	@Scheduled(cron = "10 1/1 * * * ?")
 	//@RedisLock(value = "lock:schedule:monitorAndDetectBadSqlExcution", keepMills = 360000, action = LockFailAction.GIVEUP)
 	public void monitorAndDetectBadSqlExcution() {
-		LOGGER.debug("monitorAndDetectBadMethodExcution-execute...");
+		LOGGER.debug("monitorAndDetectBadSqlExcution-execute...");
 		Map<String, SqlExecuteMonitoringBean> suspectedSqlList = new HashMap<String, SqlExecuteMonitoringBean>();
 		String result = DruidStatService.getInstance()
 				.service("/sql.json?orderBy=TotalTime&orderType=desc&page=1&perPageCount=1000");
 		suspectedSqlList = processWarningSqlDataList(result, suspectedSqlList);
-		LOGGER.debug("monitorAndDetectBadMethodExcution-executed query and result process.1..");
+		LOGGER.debug("monitorAndDetectBadSqlExcution-executed query and result process.1..");
 
 		// 1-10s: /sql.json?orderBy=Histogram[4]&orderType=desc&page=1&perPageCount=1000
 		result = DruidStatService.getInstance()
 				.service("/sql.json?orderBy=Histogram[4]&orderType=desc&page=1&perPageCount=1000");
 		suspectedSqlList = processWarningSqlDataList(result, suspectedSqlList);
-		LOGGER.debug("monitorAndDetectBadMethodExcution-executed query and result process.2..");
+		LOGGER.debug("monitorAndDetectBadSqlExcution-executed query and result process.2..");
 
 		// 10-100s: /sql.json?orderBy=Histogram[5]&orderType=desc&page=1&perPageCount=100
 		result = DruidStatService.getInstance()
 				.service("/sql.json?orderBy=Histogram[5]&orderType=desc&page=1&perPageCount=100");
 		suspectedSqlList = processWarningSqlDataList(result, suspectedSqlList);
-		LOGGER.debug("monitorAndDetectBadMethodExcution-executed query and result process.3..");
+		LOGGER.debug("monitorAndDetectBadSqlExcution-executed query and result process.3..");
 
 		// 100-1000s: /sql.json?orderBy=Histogram[6]&orderType=desc&page=1&perPageCount=10
 		result = DruidStatService.getInstance()
 				.service("/sql.json?orderBy=Histogram[5]&orderType=desc&page=1&perPageCount=10");
 		suspectedSqlList = processWarningSqlDataList(result, suspectedSqlList);
-		LOGGER.debug("monitorAndDetectBadMethodExcution-executed query and result process.4..");
+		LOGGER.debug("monitorAndDetectBadSqlExcution-executed query and result process.4..");
 
 		// >1000s: /sql.json?orderBy=Histogram[7]&orderType=desc&page=1&perPageCount=5
 		result = DruidStatService.getInstance()
 				.service("/spring.json?orderBy=Histogram[7]&orderType=desc&page=1&perPageCount=5");
 		suspectedSqlList = processWarningSqlDataList(result, suspectedSqlList);
-		LOGGER.debug("monitorAndDetectBadMethodExcution-executed query and result process.5..");
+		LOGGER.debug("monitorAndDetectBadSqlExcution-executed query and result process.5..");
 
 		// send notification
 		if (suspectedSqlList != null && !suspectedSqlList.isEmpty() && suspectedSqlList.get(0) != null) {
