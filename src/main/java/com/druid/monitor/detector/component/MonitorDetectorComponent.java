@@ -8,7 +8,6 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.druid.stat.DruidStatService;
@@ -25,18 +24,6 @@ import com.druid.monitor.detector.bean.SqlExecuteMonitoringBean;
 public class MonitorDetectorComponent {
 	private static final Logger LOGGER = LoggerFactory.getLogger(MonitorDetectorComponent.class);
 
-	
-
-	/**
-	 * Schedule run start on 1:01, and run every 1 minutes.
-	 */
-	//@Scheduled(cron = "1 1/1 * * * ?")
-	
-	/**
-	 * Schedule run start on 3:01, and run every 3 minutes.
-	 */
-	@Scheduled(cron = "1 3/3 * * * ?")
-//	@RedisLock(value = "lock:schedule:monitorAndDetectBadMethodExcution", keepMills = 180000, action = LockFailAction.GIVEUP)
 	public void monitorAndDetectBadMethodExcution() {
 		LOGGER.debug("monitorAndDetectBadMethodExcution-execute...");
 		Map<String, MethodExecuteMonitoringBean> suspectedMethodList = new HashMap<String, MethodExecuteMonitoringBean>();
@@ -154,7 +141,7 @@ public class MonitorDetectorComponent {
 
 	public void sendSystemWarningAsBadMethodExcutionDetectedNotification(String methodKey, String className,
 			String methodName, BigDecimal executeCost, int executeErrorCount, String text) {
-		//TODO send notification
+		// TODO send notification
 	}
 
 	private int parseInt(Object obj) {
@@ -169,11 +156,6 @@ public class MonitorDetectorComponent {
 		return result;
 	}
 
-	/**
-	 * Schedule run start on 6:10, and run every 6 minutes.
-	 */
-	@Scheduled(cron = "10 1/1 * * * ?")
-	//@RedisLock(value = "lock:schedule:monitorAndDetectBadSqlExcution", keepMills = 360000, action = LockFailAction.GIVEUP)
 	public void monitorAndDetectBadSqlExcution() {
 		LOGGER.debug("monitorAndDetectBadSqlExcution-execute...");
 		Map<String, SqlExecuteMonitoringBean> suspectedSqlList = new HashMap<String, SqlExecuteMonitoringBean>();
@@ -284,28 +266,31 @@ public class MonitorDetectorComponent {
 
 	public void sendSystemWarningAsBadSqlExcutionDetectedNotification(String methodKey, String sql,
 			BigDecimal executeCost, int executeErrorCount, String text) {
-		//TODO send notification
+		// TODO send notification
 	}
 
-/*	public static void main(String... args) {
-		MonitorDetectorComponent c = new MonitorDetectorComponent();
-		Map<String, MethodExecuteMonitoringBean> suspectedMethodList = new HashMap<String, MethodExecuteMonitoringBean>();
-		String result = "";
-		suspectedMethodList = c.processWarningMethodDataList(result, suspectedMethodList);
-		System.out.println(suspectedMethodList.size());
-		for (MethodExecuteMonitoringBean bean : suspectedMethodList.values()) {
-			System.out.println(bean.getMethodName());
-			System.out.println(bean.getLastErrorMessage());
-		}
-
-		Map<String, SqlExecuteMonitoringBean> suspectedSqlList = new HashMap<String, SqlExecuteMonitoringBean>();
-		String resultSql = "";
-		suspectedSqlList = c.processWarningSqlDataList(resultSql, suspectedSqlList);
-		System.out.println(suspectedSqlList.size());
-		for (SqlExecuteMonitoringBean bean : suspectedSqlList.values()) {
-			System.out.println(bean.getSql());
-			System.out.println(bean.getLastErrorMessage());
-		}
-	}*/
+	/*
+	 * public static void main(String... args) {
+	 * MonitorDetectorComponent c = new MonitorDetectorComponent();
+	 * Map<String, MethodExecuteMonitoringBean> suspectedMethodList = new HashMap<String,
+	 * MethodExecuteMonitoringBean>();
+	 * String result = "";
+	 * suspectedMethodList = c.processWarningMethodDataList(result, suspectedMethodList);
+	 * System.out.println(suspectedMethodList.size());
+	 * for (MethodExecuteMonitoringBean bean : suspectedMethodList.values()) {
+	 * System.out.println(bean.getMethodName());
+	 * System.out.println(bean.getLastErrorMessage());
+	 * }
+	 * 
+	 * Map<String, SqlExecuteMonitoringBean> suspectedSqlList = new HashMap<String, SqlExecuteMonitoringBean>();
+	 * String resultSql = "";
+	 * suspectedSqlList = c.processWarningSqlDataList(resultSql, suspectedSqlList);
+	 * System.out.println(suspectedSqlList.size());
+	 * for (SqlExecuteMonitoringBean bean : suspectedSqlList.values()) {
+	 * System.out.println(bean.getSql());
+	 * System.out.println(bean.getLastErrorMessage());
+	 * }
+	 * }
+	 */
 
 }
