@@ -2,14 +2,14 @@
 Druid Monitor Detector to analysis druid monitor API data for monitor notification
 
 ## Function
-Monitor&Detect Project Bad Method excution health
-Monitor&Detect Project Bad SQL execution health
+- Monitor & Detect Project Bad Method excution health
+- Monitor & Detect Project Bad SQL execution health
 
 ## Strategy
-Base on execute error count, execute average time, execute time too long!
+- Base on execute error count, execute average time, execute time too long!
 
 ## TODO
-Monitor&Detect Project URI execution
+- Monitor & Detect Project URI execution
 
 ## Step to run:
 ### build and start
