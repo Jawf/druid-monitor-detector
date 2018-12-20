@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.druid.monitor.detector.component.MonitorDetectorComponent;
+import com.druid.monitor.detector.component.BadCodeDetectorComponent;
 
 @Component
-public class MonitorDetectorSchedule {
+public class BadCodeDetectorSchedule {
 
 	@Autowired
-	private MonitorDetectorComponent monitorDetectorComponent;
+	private BadCodeDetectorComponent monitorDetectorComponent;
 	
 	/**
 	 * Schedule run start on 3:01, and run every 3 minutes.

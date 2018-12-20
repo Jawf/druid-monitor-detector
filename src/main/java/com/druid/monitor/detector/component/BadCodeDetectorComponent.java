@@ -21,17 +21,14 @@ import com.druid.monitor.detector.bean.SqlExecuteMonitoringBean;
  *
  */
 @Component
-public class MonitorDetectorComponent {
-	private static final Logger LOGGER = LoggerFactory.getLogger(MonitorDetectorComponent.class);
+public class BadCodeDetectorComponent {
+	private static final Logger LOGGER = LoggerFactory.getLogger(BadCodeDetectorComponent.class);
 
 	public void monitorAndDetectBadMethodExcution() {
 		LOGGER.debug("monitorAndDetectBadMethodExcution-execute...");
 		Map<String, MethodExecuteMonitoringBean> suspectedMethodList = new HashMap<String, MethodExecuteMonitoringBean>();
 		String result = DruidStatService.getInstance()
 				.service("/spring.json?orderBy=ExecuteTimeMillis&orderType=desc&page=1&perPageCount=1000");
-		// 10-100s: /spring.json?orderBy=Histogram[5]&orderType=desc&page=1&perPageCount=100
-		// 100-1000s: /spring.json?orderBy=Histogram[6]&orderType=desc&page=1&perPageCount=10
-		// >1000s: /spring.json?orderBy=Histogram[7]&orderType=desc&page=1&perPageCount=5
 		suspectedMethodList = processWarningMethodDataList(result, suspectedMethodList);
 		LOGGER.debug("monitorAndDetectBadMethodExcution-executed query and result process.1..");
 
