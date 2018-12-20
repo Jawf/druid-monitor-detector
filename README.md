@@ -27,7 +27,10 @@ access to http://localhost:8080/druid
 - GET http://localhost:8080/user/person?email=xxx&firstName=test  to create user
 - GET http://localhost:8080/users  to search user
 
-### implement send notication method to monitor system heath.
+## Integrate to your project
+- Copy package: config, component, bean, schedule to your project
+- Able to implement send notication method to monitor system heath.
+- Ready to work!
 
 ### Normally runing log
 - Shedule Run Normally Log:
