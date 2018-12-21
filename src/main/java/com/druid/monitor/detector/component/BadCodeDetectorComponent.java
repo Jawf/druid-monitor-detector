@@ -78,7 +78,7 @@ public class BadCodeDetectorComponent {
 		if (contentList != null && !contentList.isEmpty()) {
 			for (Map<String, Object> contentMap : contentList) {
 				String className = (String) contentMap.get("Class");
-				if (className != null && !"".equals(className)) {
+				if (className == null || "".equals(className)) {
 					continue;
 				}
 				String methodName = (String) contentMap.get("Method");
@@ -206,7 +206,7 @@ public class BadCodeDetectorComponent {
 		if (contentList != null && !contentList.isEmpty()) {
 			for (Map<String, Object> contentMap : contentList) {
 				String sql = (String) contentMap.get("SQL");
-				if (sql != null && !"".equals(sql)) {
+				if (sql == null || "".equals(sql)) {
 					continue;
 				}
 				int executeCount = parseInt(contentMap.get("ExecuteCount"));
