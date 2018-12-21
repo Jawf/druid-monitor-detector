@@ -3,6 +3,7 @@ package com.druid.monitor.detector.component;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -57,16 +58,20 @@ public class BadCodeDetectorComponent {
 		LOGGER.debug("monitorAndDetectBadMethodExcution-executed query and result process.5..");
 
 		// send notification
-		if (suspectedMethodList != null && !suspectedMethodList.isEmpty() && suspectedMethodList.get(0) != null) {
+		if (suspectedMethodList != null && !suspectedMethodList.isEmpty() && suspectedMethodList.values() != null) {
 			String errorText = "";
-			for (MethodExecuteMonitoringBean bean : suspectedMethodList.values()) {
-				errorText = bean.toString() + "<br/>";
+			Iterator<MethodExecuteMonitoringBean> it = suspectedMethodList.values().iterator();
+			if (it.hasNext()) {
+				MethodExecuteMonitoringBean firstBean = it.next();
+				errorText = firstBean.toString() + "<br/>";
+				while (it.hasNext()) {
+					MethodExecuteMonitoringBean bean = it.next();
+					errorText = bean.toString() + "<br/>";
+				}
+				sendSystemWarningAsBadMethodExcutionDetectedNotification(firstBean.getKey(), firstBean.getClassName(),
+						firstBean.getMethodName(), firstBean.getExecuteCost(), firstBean.getExecuteErrorCount(),
+						errorText);
 			}
-
-			sendSystemWarningAsBadMethodExcutionDetectedNotification(suspectedMethodList.get(0).getKey(),
-					suspectedMethodList.get(0).getClassName(), suspectedMethodList.get(0).getMethodName(),
-					suspectedMethodList.get(0).getExecuteCost(), suspectedMethodList.get(0).getExecuteErrorCount(),
-					errorText);
 		}
 	}
 
@@ -186,15 +191,20 @@ public class BadCodeDetectorComponent {
 		LOGGER.debug("monitorAndDetectBadSqlExcution-executed query and result process.5..");
 
 		// send notification
-		if (suspectedSqlList != null && !suspectedSqlList.isEmpty() && suspectedSqlList.get(0) != null) {
+		if (suspectedSqlList != null && !suspectedSqlList.isEmpty() && suspectedSqlList.values() != null) {
 			String errorText = "";
-			for (SqlExecuteMonitoringBean bean : suspectedSqlList.values()) {
-				errorText = bean.toString() + "<br/>";
-			}
+			Iterator<SqlExecuteMonitoringBean> it = suspectedSqlList.values().iterator();
+			if (it.hasNext()) {
+				SqlExecuteMonitoringBean firstBean = it.next();
+				errorText = firstBean.toString() + "<br/>";
+				while (it.hasNext()) {
+					SqlExecuteMonitoringBean bean = it.next();
+					errorText = bean.toString() + "<br/>";
+				}
 
-			sendSystemWarningAsBadSqlExcutionDetectedNotification(suspectedSqlList.get(0).getKey(),
-					suspectedSqlList.get(0).getSql(), suspectedSqlList.get(0).getExecuteCost(),
-					suspectedSqlList.get(0).getExecuteErrorCount(), errorText);
+				sendSystemWarningAsBadSqlExcutionDetectedNotification(firstBean.getKey(), firstBean.getSql(),
+						firstBean.getExecuteCost(), firstBean.getExecuteErrorCount(), errorText);
+			}
 		}
 	}
 
