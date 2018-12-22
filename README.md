@@ -54,3 +54,6 @@ access to http://localhost:8080/druid
 ![Ruid-Monitor SQL Stat](https://github.com/Jawf/druid-monitor-detector/blob/master/src/main/resources/static/sql-stat-monitor.png)
 ![Ruid-Monitor Spring Method Stat](https://github.com/Jawf/druid-monitor-detector/blob/master/src/main/resources/static/spring-method-monitor.png)
 ![Ruid-Monitor Request URI Stat](https://github.com/Jawf/druid-monitor-detector/blob/master/src/main/resources/static/URI-stat-monitor.png)
+
+### Mail Notification Content
+![Method Notification Content Screenshot](https://github.com/Jawf/druid-monitor-detector/blob/master/src/main/resources/static/SuspectedMethodNotification.jpg)
