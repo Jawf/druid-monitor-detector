@@ -1,5 +1,5 @@
 # druid-monitor-detector
-Druid Monitor Detector to analysis druid monitor API data for monitor notification
+Druid Monitor Detector to analysis druid monitor API data and send monitoring notification
 
 ## Function
 - Monitor & Detect Project Bad Method excution health
