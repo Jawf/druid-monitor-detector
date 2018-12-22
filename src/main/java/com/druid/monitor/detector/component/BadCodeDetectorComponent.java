@@ -24,6 +24,9 @@ import com.druid.monitor.detector.bean.SqlExecuteMonitoringBean;
 @Component
 public class BadCodeDetectorComponent {
 	private static final Logger LOGGER = LoggerFactory.getLogger(BadCodeDetectorComponent.class);
+	
+	private static final int AVG_EXECUTE_TIME_ALERT_METHOD_BY_SECOND = 3;
+	private static final int AVG_EXECUTE_TIME_ALERT_SQL_BY_SECOND = 3;
 
 	public void monitorAndDetectBadMethodExcution() {
 		LOGGER.debug("monitorAndDetectBadMethodExcution-execute...");
@@ -122,7 +125,7 @@ public class BadCodeDetectorComponent {
 						bean.setHasExcceed1000s(true);
 					}
 				}
-				if (avgExecuteCostTime.compareTo(new BigDecimal(3)) > 0 || executeErrorCount > 0) {
+				if (avgExecuteCostTime.compareTo(new BigDecimal(AVG_EXECUTE_TIME_ALERT_METHOD_BY_SECOND)) > 0 || executeErrorCount > 0) {
 					LOGGER.debug(
 							"processWarningMethodDataList-method execute status-WARNING! Error Method Count or Cost execution found with className={}, method={}, avgExecuteTime={}, executeCount={}, executeTimeMillis={}, executeErrorCount={}",
 							className, methodName, avgExecuteCostTime, executeCount, executeTimeMillis,
@@ -252,7 +255,7 @@ public class BadCodeDetectorComponent {
 						bean.setHasExcceed1000s(true);
 					}
 				}
-				if (avgExecuteCostTime.compareTo(new BigDecimal(3)) > 0 || executeErrorCount > 0) {
+				if (avgExecuteCostTime.compareTo(new BigDecimal(AVG_EXECUTE_TIME_ALERT_SQL_BY_SECOND)) > 0 || executeErrorCount > 0) {
 					LOGGER.debug(
 							"processWarningSqlDataList-SQL execute status-WARNING! Error SQL Count or Cost execution found with sql={}, avgExecuteTime={}, executeCount={}, executeTimeMillis={}, executeErrorCount={}",
 							sql.substring(0, sql.length() >= 30 ? 29 : sql.length()), executeTimeMillis,
