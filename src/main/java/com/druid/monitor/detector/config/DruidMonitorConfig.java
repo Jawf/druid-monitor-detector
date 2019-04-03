@@ -1,12 +1,19 @@
 package com.druid.monitor.detector.config;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.aop.support.JdkRegexpMethodPointcut;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.StringUtils;
 
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
@@ -15,6 +22,22 @@ import com.alibaba.druid.support.spring.stat.DruidStatInterceptor;
 @Configuration
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class DruidMonitorConfig {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(DruidMonitorConfig.class);
+
+	/**
+	 * Use this instance address can enable only one instance if distribute deployed in production.
+	 * Such as:
+	 * application.druid.monitor.enableInstanceAddress=192.168.0.5:8081
+	 * can only enable instance with: ip is192.168.0.5 and port is 8081.
+	 */
+	@Value("${application.druid.monitor.enableInstanceAddress:}")
+	private String druidEnableAddress;
+	
+	@Value("${server.port:8080}")
+	private String localPort;
+	
+	private boolean enabled = false;
 
 	@Bean
 	public ServletRegistrationBean druidServlet() {
@@ -29,6 +52,24 @@ public class DruidMonitorConfig {
 		servletRegistrationBean.addInitParameter("loginPassword", "admin");
 		// 是否能够重置数据.
 		servletRegistrationBean.addInitParameter("resetEnable", "true");
+		
+		// check enable or disable
+		String localIp = "";
+		try {
+			localIp = InetAddress.getLocalHost().getHostAddress();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		String hostAddress = localIp.concat(":").concat(localPort);
+		//default enable all instance
+		if (StringUtils.isEmpty(druidEnableAddress) || druidEnableAddress.equalsIgnoreCase(hostAddress)) {
+			enabled = true;
+			LOGGER.info("enabled druid monitor-druidServlet enabled address={}, enabled={}", druidEnableAddress,
+					enabled);
+		}
+		if (!enabled) {
+			servletRegistrationBean.setEnabled(false);
+		}
 		return servletRegistrationBean;
 	}
 	

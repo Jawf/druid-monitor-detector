@@ -49,6 +49,7 @@ import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.druid.util.JdbcUtils;
 import com.druid.monitor.detector.Application;
 import com.druid.monitor.detector.controller.ServerStatusController;
+import com.druid.monitor.detector.service.DruidCommonService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
@@ -420,6 +421,18 @@ public class DruidStatServiceTest {
         List histogram = (List) contentMap.get("Histogram");
         assertThat((String) contentMap.get("Class"), is(not(nullValue())));
         assertThat((Integer) contentMap.get("ExecuteCount"), equalTo(1));
+    }
+    
+    @Autowired
+	private DruidCommonService druidCommonService;
+    
+    @Test
+    public void test_statService_loginToDruid() throws Exception {
+    	serverStatusController.getServerStatus();
+    	String prefixUrl = "http://localhost:8081/druid";
+    	String cookie = druidCommonService.loginToDruid(prefixUrl, "admin", "qwertyuiop");
+    	String resultTemp2= druidCommonService.resetDruid(prefixUrl, cookie);
+    	
     }
 
     public void test_statService_getSpringDetail() throws Exception {
