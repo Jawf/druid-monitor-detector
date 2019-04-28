@@ -28,7 +28,7 @@ public class DruidCommonService {
 	@Autowired
 	private RestTemplate restTemplate;
 
-	public String loginToDruid(String prefixUrl, String username, String password) {
+	public String getLoginCookieToDruid(String prefixUrl, String username, String password) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
@@ -62,6 +62,21 @@ public class DruidCommonService {
 		HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<MultiValueMap<String, String>>(param,
 				headers);
 		ResponseEntity<String> responseEntity = restTemplate.exchange(prefixUrl.concat(URL_RESET), HttpMethod.POST, requestEntity,
+				String.class);
+		String result = responseEntity.getBody();
+		return result;
+	}
+	
+	public String druidService(String prefixUrl, String serviceUrl, String cookie) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		headers.add("Cookie", cookie);
+		
+		MultiValueMap<String, String> param = new LinkedMultiValueMap<String, String>();
+		
+		HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<MultiValueMap<String, String>>(param,
+				headers);
+		ResponseEntity<String> responseEntity = restTemplate.exchange(prefixUrl.concat(serviceUrl), HttpMethod.POST, requestEntity,
 				String.class);
 		String result = responseEntity.getBody();
 		return result;

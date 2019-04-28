@@ -429,9 +429,12 @@ public class DruidStatServiceTest {
     @Test
     public void test_statService_loginToDruid() throws Exception {
     	serverStatusController.getServerStatus();
-    	String prefixUrl = "http://localhost:8081/druid";
-    	String cookie = druidCommonService.loginToDruid(prefixUrl, "admin", "qwertyuiop");
+    	String prefixUrl = "http://localhost:8081/druid"; // "http://172.17.128.156:8040/druid";
+    	String cookie = druidCommonService.getLoginCookieToDruid(prefixUrl, "admin", "qwertyuiop");
     	String resultTemp2= druidCommonService.resetDruid(prefixUrl, cookie);
+    	
+    	String springServiceUrl = "/spring.json?orderBy=ExecuteTimeMillis&orderType=desc&page=1&perPageCount=1000";
+    	String resultTemp3 = druidCommonService.druidService(prefixUrl, springServiceUrl, cookie);
     	
     }
 
