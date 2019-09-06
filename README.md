@@ -14,23 +14,23 @@ Druid Monitor Detector to analysis druid monitor API data and send monitoring no
 ## Step to run:
 ### build and start
 ```
-git clone https://github.com/Jawf/druid-monitor-detector.git
-mvn clean package
-mvn spring-boot:run
+1. git clone https://github.com/Jawf/druid-monitor-detector.git
+2. mvn clean package
+3. mvn spring-boot:run
 ```
 ### use druid-monitor ui
 ```
 access to http://localhost:8080/druid
 ```
 ### prepare data:
-- Please according to the controller to prepare data for testing
-- GET http://localhost:8080/user/person?email=xxx&firstName=test  to create user
-- GET http://localhost:8080/users  to search user
+1. Please according to the controller to prepare data for testing
+2. GET http://localhost:8080/user/person?email=xxx&firstName=test  to create user
+3. GET http://localhost:8080/users  to search user
 
 ## Integrate to your project
-- Copy package: config, component, bean, schedule to your project
-- Able to implement send notication method to monitor system heath.
-- Ready to work!
+1. Copy package: **config, component, bean, schedule** to your project
+2. Able to implement **send notication method** to monitor system heath.
+3. Ready to work!
 
 ### Normally runing log
 - Shedule Run Normally Log:
